@@ -2,115 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Brand tokens (pulled from vryfid-vibes) ── */
 :root {
-  /* Sand */
-  --sand-50:  #FEFBF5;
-  --sand-100: #FDF5E6;
-  --sand-200: #F9E7CD;
+  /* Page */
+  --bg:         #0D0F14;
+  --card:       #1B2A4A;
+  --card-hover: #203055;
 
-  /* Ocean teal */
-  --ocean-500: #14B8A6;
-  --ocean-600: #0D9488;
-  --ocean-700: #0F766E;
-
-  /* Coral */
-  --coral-500: #FF6B5B;
-
-  /* Mango */
-  --mango-400: #FBBF24;
-  --mango-500: #F59E0B;
-  --mango-600: #D97706;
-
-  /* Palm */
-  --palm-500: #10B981;
-  --palm-600: #059669;
-
-  /* Ink */
-  --ink:       #0C3C38;
-  --ink-mid:   #294D4A;
-  --ink-light: #6B7F7C;
-
-  /* VryfID Navy */
-  --navy:     #1B3A6B;
-  --navy-mid: #2050A0;
-  --navy-deep: #0C2560;
-
-  /* Page background */
-  --bg: #FAF7F2;
+  /* Accent per section */
+  --teal:       #00C9A7;
+  --teal-dim:   #00A389;
+  --purple:     #7C3AED;
+  --purple-dim: #6D28D9;
+  --orange:     #F97316;
+  --amber:      #FBBF24;
+  --coral:      #EF4444;
+  --blue:       #3B82F6;
 
   /* Gradients */
-  --gradient-sunset:   linear-gradient(135deg, #FF6B5B 0%, #FBBF24 100%);
-  --gradient-ocean:    linear-gradient(135deg, #0D9488 0%, #06B6D4 100%);
-  --gradient-navy:     linear-gradient(135deg, #1B3A6B 0%, #0C2560 100%);
-  --gradient-paradise: linear-gradient(135deg, #FF6B5B 0%, #FBBF24 45%, #10B981 100%);
-  --gradient-dusk:     linear-gradient(135deg, #7C2D6B 0%, #EF4444 50%, #FBBF24 100%);
+  --grad-orange: linear-gradient(135deg, #F97316 0%, #FBBF24 100%);
+  --grad-navy:   linear-gradient(135deg, #1B2A4A 0%, #0C2560 100%);
+  --grad-teal:   linear-gradient(135deg, #00C9A7 0%, #06B6D4 100%);
+  --grad-purple: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+
+  /* Text */
+  --text-primary:   #FFFFFF;
+  --text-secondary: #9CA3AF;
+  --text-dim:       #6B7280;
+
+  /* Borders / dividers */
+  --divider: rgba(255,255,255,0.08);
 
   /* Shadows */
-  --shadow-sm:   0 1px 3px rgba(12,60,56,0.06), 0 1px 2px rgba(12,60,56,0.04);
-  --shadow-md:   0 4px 16px rgba(12,60,56,0.07), 0 2px 6px rgba(12,60,56,0.04);
-  --shadow-lg:   0 12px 40px rgba(12,60,56,0.10), 0 4px 12px rgba(12,60,56,0.05);
-  --shadow-navy: 0 8px 32px rgba(27,58,107,0.22), 0 2px 8px rgba(12,37,96,0.12);
-
-  /* Borders */
-  --border: #E5E7EB;
-  --radius: 12px;
-
-  /* Status */
-  --green:    #16A34A;
-  --green-bg: #DCFCE7;
-  --red:      #DC2626;
-  --red-bg:   #FEE2E2;
-  --amber:    #D97706;
-  --amber-bg: #FEF3C7;
-  --blue:     #2563EB;
-  --blue-bg:  #DBEAFE;
-  --teal:     #0D9488;
-  --teal-bg:  #CCFBF1;
+  --shadow-card: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-glow-teal:   0 0 20px rgba(0,201,167,0.25);
+  --shadow-glow-orange: 0 0 20px rgba(249,115,22,0.3);
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   font-family: 'Inter', -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  background: var(--bg);
+  color: var(--text-primary);
 }
 
 body {
-  background: var(--bg);
-  color: #1F2937;
   min-height: 100vh;
+  background: var(--bg);
   overflow-x: hidden;
 }
 
-/* Touch improvements */
-button, a, [role="button"], select, input, textarea {
-  touch-action: manipulation;
-}
-button, a, [role="button"] {
-  -webkit-tap-highlight-color: transparent;
-}
-button:active, a:active { opacity: 0.78; }
+/* Touch */
+button, a, [role="button"], select, input, textarea { touch-action: manipulation; }
+button, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
 button, [role="button"] { user-select: none; -webkit-user-select: none; }
 
-/* MapLibre reset */
-.maplibregl-map { font-family: 'Inter', sans-serif; }
-.maplibregl-ctrl-attrib { font-size: 10px !important; }
-
-/* Pin animation */
-@keyframes vryfid-breathe {
-  0%,100% { transform: scale(1);    opacity: 1;    }
-  50%      { transform: scale(1.08); opacity: 0.88; }
+/* ── Leaflet dark-popup overrides ── */
+.leaflet-popup-content-wrapper {
+  background: #1B2A4A !important;
+  color: #fff !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5) !important;
+  padding: 0 !important;
 }
-.vryfid-active-pin { animation: vryfid-breathe 2.8s ease-in-out infinite; will-change: transform; }
+.leaflet-popup-content {
+  margin: 0 !important;
+  padding: 14px 16px !important;
+}
+.leaflet-popup-tip { background: #1B2A4A !important; }
+.leaflet-popup-close-button { color: rgba(255,255,255,0.5) !important; top: 8px !important; right: 10px !important; }
+.leaflet-container { background: #0D0F14 !important; }
 
-/* Fade-in */
+/* ── Swipe animation keyframes ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-up { animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.fade-up { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) both; }
+
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%     { opacity: 0.6; transform: scale(1.4); }
+}
+.pulse-dot { animation: pulse-dot 1.8s ease-in-out infinite; }
