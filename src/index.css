@@ -58,24 +58,32 @@ button, a, [role="button"], select, input, textarea { touch-action: manipulation
 button, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
 button, [role="button"] { user-select: none; -webkit-user-select: none; }
 
-/* ── Leaflet dark-popup overrides ── */
-.leaflet-popup-content-wrapper {
+/* ── MapLibre dark-popup overrides ── */
+.maplibregl-popup-content {
   background: #1B2A4A !important;
   color: #fff !important;
   border-radius: 14px !important;
   border: 1px solid rgba(255,255,255,0.1) !important;
   box-shadow: 0 12px 40px rgba(0,0,0,0.5) !important;
   padding: 0 !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
 }
-.leaflet-popup-content {
-  margin: 0 !important;
-  padding: 14px 16px !important;
+.maplibregl-popup-tip {
+  border-top-color: #1B2A4A !important;
+  border-bottom-color: #1B2A4A !important;
 }
-.leaflet-popup-tip { background: #1B2A4A !important; }
-.leaflet-popup-close-button { color: rgba(255,255,255,0.5) !important; top: 8px !important; right: 10px !important; }
-.leaflet-container { background: #0D0F14 !important; }
+.maplibregl-popup-close-button {
+  color: rgba(255,255,255,0.55) !important;
+  font-size: 18px !important;
+  padding: 6px 10px !important;
+}
+.maplibregl-popup-close-button:hover { color: #fff !important; background: none !important; }
+.maplibregl-ctrl-attrib { background: rgba(13,15,20,0.7) !important; color: #6B7280 !important; }
+.maplibregl-ctrl-attrib a { color: #9CA3AF !important; }
+.maplibregl-ctrl button { background: #1B2A4A !important; color: #fff !important; border-color: rgba(255,255,255,0.1) !important; }
+.maplibregl-ctrl button svg * { fill: #9CA3AF !important; }
 
-/* ── Swipe animation keyframes ── */
+/* ── Animations ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -87,3 +95,39 @@ button, [role="button"] { user-select: none; -webkit-user-select: none; }
   50%     { opacity: 0.6; transform: scale(1.4); }
 }
 .pulse-dot { animation: pulse-dot 1.8s ease-in-out infinite; }
+
+/* Match Moment particle burst */
+@keyframes vryfid-particle {
+  0%   { transform: translate(-50%, -50%) scale(1.3); opacity: 0.95; }
+  100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0.2); opacity: 0; }
+}
+
+/* Onboarding slide transitions */
+@keyframes onboard-in-fwd {
+  from { transform: translateX(32px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes onboard-in-back {
+  from { transform: translateX(-32px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+.onboard-fwd  { animation: onboard-in-fwd  0.25s ease-out both; }
+.onboard-back { animation: onboard-in-back 0.25s ease-out both; }
+
+/* Success checkmark */
+@keyframes scale-in-bounce {
+  0%   { transform: scale(0); opacity: 0; }
+  70%  { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+@keyframes draw-check {
+  from { stroke-dashoffset: 80; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Amber expiration glow pulse */
+@keyframes amber-pulse {
+  0%,100% { box-shadow: 0 0 14px rgba(251,191,36,0.25); }
+  50%     { box-shadow: 0 0 24px rgba(251,191,36,0.45); }
+}
+.expiry-glow { animation: amber-pulse 2.4s ease-in-out infinite; }

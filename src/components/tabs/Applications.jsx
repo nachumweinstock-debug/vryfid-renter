@@ -2,9 +2,27 @@ import { useState } from 'react'
 import RenterMap from '../RenterMap'
 
 const APPLIED = [
-  { addr: '143 W 143rd St, Washington Heights', landlord: 'Heights Realty Group',         date: 'May 2, 2026',    status: 'Under Review', sc: '#3B82F6', sb: 'rgba(59,130,246,0.15)', docs: ['Gov ID', 'Income', 'Bank statements'], note: 'Application looks strong, checking references.' },
-  { addr: '507 W 158th St, Washington Heights', landlord: 'Uptown Realty',                date: 'May 8, 2026',    status: 'Pending',      sc: '#9CA3AF', sb: 'rgba(156,163,175,0.12)', docs: ['Gov ID', 'Income'], note: null },
-  { addr: '88 Arden St, Inwood',                landlord: 'Private Landlord (J. Morales)', date: 'April 28, 2026', status: 'Approved',     sc: '#00C9A7', sb: 'rgba(0,201,167,0.12)', docs: ['Gov ID', 'Income', 'Bank statements', 'Credit report'], note: 'Approved. Please sign lease by June 30.' },
+  {
+    addr: '143 W 143rd St, Washington Heights', landlord: 'Heights Realty Group',
+    date: 'May 2, 2026', status: 'Under Review', sc: '#3B82F6', sb: 'rgba(59,130,246,0.15)',
+    docs: ['Gov ID', 'Income', 'Bank statements'],
+    note: 'Application looks strong, checking references.',
+    expiry: null,
+  },
+  {
+    addr: '507 W 158th St, Washington Heights', landlord: 'Uptown Realty',
+    date: 'May 8, 2026', status: 'Pending', sc: '#9CA3AF', sb: 'rgba(156,163,175,0.12)',
+    docs: ['Gov ID', 'Income'],
+    note: null,
+    expiry: { daysLeft: 4, lastSeen: '12 days ago' },
+  },
+  {
+    addr: '88 Arden St, Inwood', landlord: 'Private Landlord (J. Morales)',
+    date: 'April 28, 2026', status: 'Approved', sc: '#00C9A7', sb: 'rgba(0,201,167,0.12)',
+    docs: ['Gov ID', 'Income', 'Bank statements', 'Credit report'],
+    note: 'Approved. Please sign lease by June 30.',
+    expiry: null,
+  },
 ]
 
 const RECS = [
@@ -19,8 +37,16 @@ const REQUESTS = [
 
 function ExpandCard({ item }) {
   const [open, setOpen] = useState(false)
+  const hasExpiry = !!item.expiry
+
   return (
-    <div style={{ background: '#1B2A4A', borderRadius: 14, padding: 20, marginBottom: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>
+    <div className={hasExpiry ? 'expiry-glow' : ''} style={{
+      background: '#1B2A4A',
+      borderRadius: 14, padding: 20, marginBottom: 12,
+      boxShadow: hasExpiry ? '0 0 16px rgba(251,191,36,0.28)' : '0 2px 12px rgba(0,0,0,0.3)',
+      border: hasExpiry ? '1px solid rgba(251,191,36,0.25)' : '1px solid transparent',
+      transition: 'box-shadow 0.3s',
+    }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>
         <div>
           <div style={{ fontWeight: 700, fontSize: 14, color: '#fff' }}>{item.addr}</div>
@@ -31,6 +57,27 @@ function ExpandCard({ item }) {
           {item.status}
         </span>
       </div>
+
+      {/* Expiration nudge — ambient, no button spam */}
+      {hasExpiry && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          background: 'rgba(251,191,36,0.08)',
+          border: '1px solid rgba(251,191,36,0.2)',
+          borderRadius: 8, padding: '7px 10px',
+          marginBottom: 12,
+        }}>
+          <span style={{ fontSize: 14 }}>⏱</span>
+          <div>
+            <span style={{ fontSize: 12, color: '#FBBF24', fontWeight: 600 }}>
+              {item.expiry.daysLeft} days left to respond
+            </span>
+            <span style={{ fontSize: 11, color: '#6B7280', marginLeft: 8 }}>
+              Landlord last active {item.expiry.lastSeen}
+            </span>
+          </div>
+        </div>
+      )}
 
       <div style={{ marginBottom: 10 }}>
         <div style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Docs sent</div>
@@ -71,8 +118,7 @@ export default function Applications() {
         <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.06)', borderRadius: 10, padding: 4 }}>
           {[['map','Map view'],['list','List view']].map(([v, label]) => (
             <button key={v} onClick={() => setView(v)} style={{
-              padding: '8px 26px',
-              border: 'none', borderRadius: 7,
+              padding: '8px 26px', border: 'none', borderRadius: 7,
               fontFamily: 'Inter, sans-serif', fontSize: 14,
               fontWeight: view === v ? 700 : 400,
               color: view === v ? '#0D0F14' : 'rgba(255,255,255,0.45)',
